@@ -1,4 +1,4 @@
-//! # handl-plugin-engine-lex-pattern
+//! # hnl-engine-lex-pattern
 //!
 //! A **data-driven** lexer engine that reads [`LexerRuleDef`] fragments from a
 //! [`Language`] and tokenizes source text (ADR-0044 §1, §3).
@@ -24,7 +24,7 @@
 #![warn(missing_docs)]
 
 use handl_language::{LangError, Language, LexerPattern, LexerRuleDef, Token, Tokens};
-use handl_plugin_engine_lex::{LexerEngine, LexerRequest};
+use hnl_engine_lex::{LexerEngine, LexerRequest};
 
 /// A data-driven lexer engine that reads [`LexerRuleDef`] fragments from the
 /// [`Language`] and tokenizes source text.
