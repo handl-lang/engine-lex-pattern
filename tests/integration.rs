@@ -2,7 +2,7 @@
 //! canonical kit (all Phase 4 emitters, including the updated `tokens` emitter
 //! that now emits `LexerRuleDef` fragments).
 
-use handl_kit_data_canonical::assemble;
+use handl_kit_data_prelude::assemble;
 use handl_language::{Source, Token};
 use hnl_engine_lex::{LexerEngine, LexerRequest};
 use hnl_engine_lex_pattern::DataLexerEngine;
