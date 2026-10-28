@@ -102,11 +102,11 @@ pub fn lex(lang: &Language, src: &str) -> Result<Tokens, LangError> {
 
     while pos < bytes.len() {
         // 2a. Skip whitespace.
-        if let Some(ch) = peek_char(src, pos) {
-            if is_whitespace(ch) {
-                pos += ch.len_utf8();
-                continue;
-            }
+        if let Some(ch) = peek_char(src, pos)
+            && is_whitespace(ch)
+        {
+            pos += ch.len_utf8();
+            continue;
         }
 
         // 2b. Try each rule in priority order; first match wins. A
@@ -154,11 +154,11 @@ pub fn lex(lang: &Language, src: &str) -> Result<Tokens, LangError> {
             // Whitespace that no rule claims (e.g. `\n` in a language
             // without a newline token rule) is skipped — same as before
             // `layout` tokens existed, so third-party kits keep working.
-            if let Some(ch) = peek_char(src, pos) {
-                if ch.is_whitespace() {
-                    pos += ch.len_utf8();
-                    continue;
-                }
+            if let Some(ch) = peek_char(src, pos)
+                && ch.is_whitespace()
+            {
+                pos += ch.len_utf8();
+                continue;
             }
             return Err(LangError::LexError {
                 position: pos,
@@ -220,16 +220,16 @@ fn try_rule<'r>(
                 //   (token kinds with a `literal` interpretation — `true`,
                 //   `false`, `null`), which are never field names.
                 if is_word_literal(text) {
-                    if let Some(following) = peek_char(src, next) {
-                        if char_matches(following, "a-zA-Z0-9_α-ωΑ-Ω.") {
-                            return None;
-                        }
+                    if let Some(following) = peek_char(src, next)
+                        && char_matches(following, "a-zA-Z0-9_α-ωΑ-Ω.")
+                    {
+                        return None;
                     }
                     if !literal_kinds.contains(rule.token_kind.as_str()) {
-                        if let Some(following) = peek_char(src, next) {
-                            if following == ':' {
-                                return None;
-                            }
+                        if let Some(following) = peek_char(src, next)
+                            && following == ':'
+                        {
+                            return None;
                         }
                         if pos > 0 && src.as_bytes()[pos - 1] == b'.' {
                             return None;
@@ -292,11 +292,8 @@ fn try_number<'r>(
     let mut cur = pos;
     // Optional leading '-' — but only if followed by a digit.
     if peek_char(src, cur) == Some('-') {
-        if let Some(d) = peek_char(src, cur + 1) {
-            if !d.is_ascii_digit() {
-                return None;
-            }
-        } else {
+        let d = peek_char(src, cur + 1)?;
+        if !d.is_ascii_digit() {
             return None;
         }
         cur += 1;
@@ -340,6 +337,9 @@ fn try_number<'r>(
 /// delimiter only terminates the block when depth returns to zero. This
 /// allows brace-balanced blocks (e.g. `json{...}`) where inner `{` / `}`
 /// pairs must not prematurely close the token.
+// The scanner takes its whole match configuration plus the input position;
+// bundling them would add a struct with no other use.
+#[allow(clippy::too_many_arguments)]
 fn try_delimited<'r>(
     rule: &'r LexerRuleDef,
     open: &str,
@@ -357,12 +357,12 @@ fn try_delimited<'r>(
     let mut depth: usize = 1;
     while cur < src.len() {
         // Check for nesting-open (increments depth before checking close).
-        if let Some(nest) = nesting_open {
-            if src[cur..].starts_with(nest) {
-                depth += 1;
-                cur += nest.len();
-                continue;
-            }
+        if let Some(nest) = nesting_open
+            && src[cur..].starts_with(nest)
+        {
+            depth += 1;
+            cur += nest.len();
+            continue;
         }
         // Check for close delimiter.
         if src[cur..].starts_with(close) {

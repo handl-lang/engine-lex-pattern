@@ -3,9 +3,15 @@ name = "hnl-engine-lex-pattern"
 version = "0.1.0"
 edition = "2024"
 publish = false
-description = "A **data-driven** lexer engine that reads [`LexerRuleDef`] fragments from a [`Language`] and tokenizes source text (ADR-0044 §1, §3)."
+description = "A data-driven lexer engine that reads [`LexerRuleDef`] fragments from a [`Language`] and tokenizes source text (ADR-0044 §1, §3)."
 license = "MIT"
 repository = "https://github.com/handl-lang/engine-lex-pattern"
+homepage = "https://handl-lang.github.io/docs/engine-lex-pattern/"
+documentation = "https://handl-lang.github.io/docs/engine-lex-pattern/reference/"
+readme = "README.md"
+keywords = ["handl", "engine", "lexer", "language-as-data"]
+categories = ["development-tools", "compilers"]
+# Git-install only: https://github.com/handl-lang/engine-lex-pattern (no crates.io).
 
 [dependencies]
 handl-language = { git = "https://github.com/handl-lang/kernel", branch = "main" }
@@ -13,49 +19,3 @@ hnl-engine-lex = { git = "https://github.com/handl-lang/engine-lex", branch = "m
 
 [dev-dependencies]
 handl-kit-data-prelude = { git = "https://github.com/handl-lang/kit-data-prelude", branch = "main" }
-
-[patch."https://github.com/handl-lang/engine"]
-hnl-engine = { path = "../engine" }
-
-[patch."https://github.com/handl-lang/engine-exec"]
-hnl-engine-exec = { path = "../engine-exec" }
-
-[patch."https://github.com/handl-lang/engine-lex"]
-hnl-engine-lex = { path = "../engine-lex" }
-
-[patch."https://github.com/handl-lang/engine-lex-pattern"]
-hnl-engine-lex-pattern = { path = "../engine-lex-pattern" }
-
-[patch."https://github.com/handl-lang/engine-parse"]
-hnl-engine-parse = { path = "../engine-parse" }
-
-[patch."https://github.com/handl-lang/engine-parse-pratt"]
-hnl-engine-parse-pratt = { path = "../engine-parse-pratt" }
-
-[patch."https://github.com/handl-lang/engine-transform"]
-hnl-engine-transform = { path = "../engine-transform" }
-
-[patch."https://github.com/handl-lang/engine-transform-rewrite"]
-hnl-engine-transform-rewrite = { path = "../engine-transform-rewrite" }
-
-[patch."https://github.com/handl-lang/engine-typecheck"]
-hnl-engine-typecheck = { path = "../engine-typecheck" }
-
-[patch."https://github.com/handl-lang/kernel"]
-handl-language = { path = "../kernel/crates/handl-language" }
-handl-value = { path = "../kernel/crates/handl-value" }
-
-[patch."https://github.com/handl-lang/kit-data-prelude"]
-handl-kit-data-prelude = { path = "../kit-data-prelude/crates/handl-kit-data-prelude" }
-
-[patch."https://github.com/handl-lang/native"]
-
-[patch."https://github.com/handl-lang/otlp"]
-
-[patch."https://github.com/handl-lang/host"]
-handl-kit-arrow-lower = { path = "../host/crates/handl-kit-arrow-lower" }
-handl-kit-data = { path = "../host/crates/handl-kit-data" }
-handl-platform = { path = "../host/crates/platform" }
-handl-plugin-ext-diag = { path = "../host/crates/plugin-ext-diag" }
-handl-runtime = { path = "../host/crates/handl-runtime" }
-
